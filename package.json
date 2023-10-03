@@ -5,5 +5,13 @@
   },
   "scripts": {
     "start": "node app.js"
-  }
+  },
+  "name": "invitandoodb",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
