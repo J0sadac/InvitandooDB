@@ -50,6 +50,10 @@ router.get('/:id', obtenerInvitado, (req, res) => {
     res.json(res.invitado);
 });
 
+router.get('/?mesa=', obtenerInvitado, (req, res) => {
+    res.json(res.invitado);
+});
+
 // Otras rutas para actualizar y eliminar invitados pueden ir aquí
 
 // Actualizar un invitado por su ID

@@ -28,8 +28,12 @@ const invitadoSchema = new mongoose.Schema({
     numeroWhatsapp: {
         type: String,
         required: true
+    },
+    asistir: {
+        type: Boolean,
+        required: true
     }
-});
+}, { collection: "invitado" });
 
 const Invitado = mongoose.model('invitado', invitadoSchema);
 

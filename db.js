@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/InvitandooDB', {
+const mongoURI = 'mongodb+srv://JosaCast044:J0ss4d4c.044@invitandoodb.orv4n66.mongodb.net/InvitandooDB';
+
+mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
