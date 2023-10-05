@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('./db'); // Importa la conexión a MongoDB desde db.js
 const invitadoRoutes = require('./router/invitadoRoutes'); // Importa las rutas de invitados desde tu archivo de rutas
 const app = express();
@@ -6,6 +7,17 @@ const PORT = 3000;
 
 // Middleware para manejar el formato de las solicitudes JSON
 app.use(express.json());
+
+// Esto permite todas las solicitudes
+const corsOptions = {
+    origin: 'https://invitandoo.com', // URL de nuestro frontend
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204,
+  };
+  
+  app.use(cors(corsOptions));
+  
 
 // Rutas
 app.use('/invitacion', invitadoRoutes); // Asocia las rutas de invitados a /api/invitados
