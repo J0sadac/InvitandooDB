@@ -89,6 +89,9 @@ router.put('/:id', obtenerInvitado, async (req, res) => {
     if (req.body.numeroWhatsapp != null) {
         res.invitado.numeroWhatsapp = req.body.numeroWhatsapp;
     }
+    if (req.body.asistir != null) {
+        res.invitado.asistir = req.body.asistir;
+    }
     try {
         const invitadoActualizado = await res.invitado.save();
         res.json(invitadoActualizado);
