@@ -9,14 +9,22 @@ const PORT = 3000;
 app.use(express.json());
 
 // Esto permite todas las solicitudes
+const allowedOrigins = ['http://localhost:3000', 'https://invitandoo.com'];
+
 const corsOptions = {
-    origin: 'https://invitandoo.com', // URL de nuestro frontend
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    optionsSuccessStatus: 204,
-  };
-  
-  app.use(cors(corsOptions));
+  origin: function(origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Acceso no permitido por CORS'));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
   
 
 // Rutas
