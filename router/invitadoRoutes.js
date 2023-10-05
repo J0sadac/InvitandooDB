@@ -2,25 +2,42 @@ const express = require('express');
 const router = express.Router();
 const Invitado = require('../models/datosModelo'); // Importa el modelo de Invitado
 
+async function obtenerInvitado(req, res, next) {
+    let invitado;
+    try {
+        invitado = await Invitado.findById(req.params.id);
+        if (invitado == null) {
+            return res.status(404).json({ mensaje: 'Invitado no encontrado' });
+        }
+    } catch (error) {
+        return res.status(500).json({ mensaje: error.message });
+    }
+
+    res.invitado = invitado;
+    next();
+}
+
 //GET
 // Ruta para obtener todos los invitados
 router.get('/', async (req, res) => {
+    const { mesa } = req.query;
     try {
-        const invitados = await Invitado.find();
-        res.json(invitados);
+        if (mesa) {
+            // Si se proporciona el parámetro mesa, buscar invitados por mesa
+            const invitados = await Invitado.find({ mesa: mesa });
+            res.json(invitados);
+        } else {
+            // Si no se proporciona el parámetro mesa, obtener todos los invitados
+            const invitados = await Invitado.find();
+            res.json(invitados);
+        }
     } catch (error) {
         res.status(500).json({ mensaje: error.message });
     }
 });
 
-router.get('/', async (req, res) => {
-    const { mesa } = req.query;
-    try {
-        const invitados = await Invitado.find({ mesa: mesa });
-        res.json(invitados);
-    } catch (error) {
-        res.status(500).json({ mensaje: error.message });
-    }
+router.get('/:id', obtenerInvitado, (req, res) => {
+    res.json(res.invitado);
 });
 
 
@@ -46,13 +63,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.get('/:id', obtenerInvitado, (req, res) => {
-    res.json(res.invitado);
-});
-
-router.get('/?mesa=', obtenerInvitado, (req, res) => {
-    res.json(res.invitado);
-});
 
 // Otras rutas para actualizar y eliminar invitados pueden ir aquí
 
@@ -97,19 +107,5 @@ router.delete('/:id', obtenerInvitado, async (req, res) => {
     }
 });
 
-async function obtenerInvitado(req, res, next) {
-    let invitado;
-    try {
-        invitado = await Invitado.findById(req.params.id);
-        if (invitado == null) {
-            return res.status(404).json({ mensaje: 'Invitado no encontrado' });
-        }
-    } catch (error) {
-        return res.status(500).json({ mensaje: error.message });
-    }
-
-    res.invitado = invitado;
-    next();
-}
 
 module.exports = router;
