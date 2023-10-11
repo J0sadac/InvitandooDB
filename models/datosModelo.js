@@ -34,7 +34,7 @@ const invitadoSchema = new mongoose.Schema({
         required: true
     },
     asistir: {
-        type: Boolean,
+        type: String,
         required: true
     }
 }, { collection: "invitado" });
