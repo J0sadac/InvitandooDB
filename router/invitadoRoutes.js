@@ -52,7 +52,8 @@ router.post('/', async (req, res) => {
         cantidadInvitados: req.body.cantidadInvitados,
         niños: req.body.niños,
         numeroTelefono: req.body.numeroTelefono,
-        numeroWhatsapp: req.body.numeroWhatsapp
+        numeroWhatsapp: req.body.numeroWhatsapp,
+        asistir: req.body.asistir
     });
 
     try {
