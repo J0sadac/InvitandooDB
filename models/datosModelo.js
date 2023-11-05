@@ -9,36 +9,127 @@ const invitadoSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    mesa: {
-        type: Number,
-        required: true
-    },
-    nombreInvitado: {
+    invitados: [{
+        _id: {
+            type: String,
+            required: true
+        },
+        mesa: {
+            type: Number,
+            required: true
+        },
+        nombreInvitado: {
+            type: String,
+            required: true
+        },
+        cantidadInvitados: {
+            type: Number,
+            required: true
+        },
+        niños: {
+            type: Number,
+            required: true
+        },
+        numeroTelefono: {
+            type: String,
+            required: true
+        },
+        numeroWhatsapp: {
+            type: String,
+            required: false
+        },
+        asistir: {
+            type: String,
+            required: true
+        }
+    }],
+    fondo: {
         type: String,
         required: true
     },
-    cantidadInvitados: {
-        type: Number,
-        required: true
+    imagenes: [{
+        type: String,
+        required: false
+    }],
+    datos: {
+        mesaDeRegalos: {
+            type: String,
+            required: true
+        },
+        direccion: {
+            type: String,
+            required: true
+        },
+        fecha: {
+            type: String,
+            required: true
+        },
+        padrinos: {
+            type: String,
+            required: false
+        },
+        dia: {
+            type: String,
+            required: true
+        },
+        novios: {
+            novio: {
+                type: String,
+                required: false
+            },
+            novia: {
+                type: String,
+                required: false
+            }
+        },
+        festejado: {
+            type: String,
+            required: false
+        }
     },
-    niños: {
-        type: Number,
+    cancion: {
+        type: String,
         required: false
     },
-    numeroTelefono: {
-        type: String,
-        required: false
+    codigoDeVestimenta: {
+        hombre: {
+            type: String,
+            required: true
+        },
+        mujer: {
+            type: String,
+            required: true
+        }
     },
-    numeroWhatsapp: {
+    evento: {
         type: String,
         required: true
     },
-    asistir: {
+    itinerario: [{
+            accion: {
+                type: String,
+                required: true
+            },
+            ubicacion: {
+                type: String,
+                required: true
+            },
+            icono: {
+                type: String,
+                required: true
+            },
+            hora: {
+                type: String,
+                required: true
+            }
+    }],
+    ubicacion: {
         type: String,
         required: true
     }
-}, { collection: "invitado" });
+}, { collection: "eventos" });
 
-const Invitado = mongoose.model('invitado', invitadoSchema);
+const Invitado = mongoose.model('eventos', invitadoSchema);
 
 module.exports = Invitado;
+
