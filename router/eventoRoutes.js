@@ -7,7 +7,7 @@ async function obtenerEvento(req, res, next) {
     try {
         evento = await Evento.findById(req.params.id);
         if (evento == null) {
-            return res.status(404).json({ mensaje: 'Evento no encontrado' });
+            return res.status(404).json({ mensaje: 'No se porque no aparece' });
         }
     } catch (error) {
         return res.status(500).json({ mensaje: error.message });
@@ -19,14 +19,23 @@ async function obtenerEvento(req, res, next) {
 
 // GET
 // Ruta para obtener todos los eventos y sus invitados
+// Ruta para obtener todos los eventos y sus invitados
 router.get('/', async (req, res) => {
+    const { anfitrion } = req.query;
+
     try {
-        const eventos = await Evento.find();
+        let eventos;
+        if (anfitrion) {
+            eventos = await Evento.find({ anfitrion: anfitrion });
+        } else {
+            eventos = await Evento.find();
+        }
         res.json(eventos);
     } catch (error) {
         res.status(500).json({ mensaje: error.message });
     }
 });
+
 
 router.get('/:id', obtenerEvento, (req, res) => {
     res.json(res.evento);
