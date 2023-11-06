@@ -28,7 +28,7 @@ const invitadoSchema = new mongoose.Schema({
         },
         niños: {
             type: Number,
-            required: true
+            required: false
         },
         numeroTelefono: {
             type: String,
@@ -49,7 +49,7 @@ const invitadoSchema = new mongoose.Schema({
     },
     imagenes: [{
         type: String,
-        required: false
+        required: true
     }],
     datos: {
         mesaDeRegalos: {
@@ -57,17 +57,27 @@ const invitadoSchema = new mongoose.Schema({
             required: true
         },
         direccion: {
-            type: String,
-            required: true
+            salon: {
+                type: String,
+                required: true
+            },
+            address: {
+                type: String,
+                required: true
+            },
+            ciudad: {
+                type: String,
+                required: true
+            }
         },
         fecha: {
             type: String,
             required: true
         },
-        padrinos: {
+        padrinos: [{
             type: String,
             required: false
-        },
+        }],
         dia: {
             type: String,
             required: true
@@ -105,7 +115,7 @@ const invitadoSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    itinerario: [{
+    itinerario: {
             accion: {
                 type: String,
                 required: true
@@ -122,7 +132,7 @@ const invitadoSchema = new mongoose.Schema({
                 type: String,
                 required: true
             }
-    }],
+    },
     ubicacion: {
         type: String,
         required: true
