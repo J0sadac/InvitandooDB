@@ -70,7 +70,7 @@ const invitadoSchema = new mongoose.Schema({
                 required: true
             }
         },
-        fecha: {
+        fechas: {
             type: String,
             required: true
         },
