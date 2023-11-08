@@ -85,14 +85,12 @@ router.post('/', async (req, res) => {
 });
 
 // PUT
-// Ruta para actualizar un evento por su ID
-// PUT
 // Ruta para actualizar un evento por su ID y las propiedades "anfitrion" e "invitadoId"
 router.put('/', obtenerEvento, async (req, res) => {
     try {
-        const { anfitrion, invitadoId } = req.query; // Obtiene los valores de los parámetros de consulta
+        const { anfitrion, invitadoId } = req.body; // Obtén los valores del cuerpo de la solicitud
 
-        // Verifica si se proporcionaron las propiedades "anfitrion" e "invitadoId" en la solicitud
+        // Verifica si se proporcionaron las propiedades "anfitrion" e "invitadoId" en el cuerpo de la solicitud
         if (!anfitrion || !invitadoId) {
             return res.status(400).json({ mensaje: 'Los parámetros "anfitrion" e "invitadoId" son obligatorios.' });
         }
@@ -115,6 +113,7 @@ router.put('/', obtenerEvento, async (req, res) => {
         res.status(400).json({ mensaje: error.message });
     }
 });
+
 
 
 // DELETE

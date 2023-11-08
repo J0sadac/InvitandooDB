@@ -75,8 +75,14 @@ const invitadoSchema = new mongoose.Schema({
             required: true
         },
         padrinos: [{
-            type: String,
-            required: false
+            padrino: {
+                type: String,
+                required: false
+            },
+            de: {
+                type: String,
+                required: false
+            }
         }],
         dia: {
             type: String,
