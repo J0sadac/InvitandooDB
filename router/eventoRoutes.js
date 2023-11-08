@@ -86,21 +86,36 @@ router.post('/', async (req, res) => {
 
 // PUT
 // Ruta para actualizar un evento por su ID
-router.put('/:id', obtenerEvento, async (req, res) => {
+// PUT
+// Ruta para actualizar un evento por su ID y las propiedades "anfitrion" e "invitadoId"
+router.put('/', obtenerEvento, async (req, res) => {
     try {
-        const { anfitriones, fecha, direccion, frases, invitados } = req.body;
-        res.evento.anfitriones = anfitriones;
-        res.evento.fecha = fecha;
-        res.evento.direccion = direccion;
-        res.evento.frases = frases;
-        res.evento.invitados = invitados;
-        
-        const eventoActualizado = await res.evento.save();
-        res.json(eventoActualizado);
+        const { anfitrion, invitadoId } = req.query; // Obtiene los valores de los parámetros de consulta
+
+        // Verifica si se proporcionaron las propiedades "anfitrion" e "invitadoId" en la solicitud
+        if (!anfitrion || !invitadoId) {
+            return res.status(400).json({ mensaje: 'Los parámetros "anfitrion" e "invitadoId" son obligatorios.' });
+        }
+
+        // Actualiza las propiedades "anfitrion" e "invitadoId" del evento
+        res.evento.anfitrion = anfitrion;
+        const invitado = res.evento.invitados.find(i => i._id === invitadoId);
+
+        if (invitado) {
+            // Si se encuentra el invitado, actualiza sus propiedades específicas
+            // Aquí puedes agregar más propiedades según sea necesario
+            invitado.asistir = req.body.asistir; // Actualiza la propiedad "asistir" del invitado
+
+            const eventoActualizado = await res.evento.save();
+            res.json(eventoActualizado);
+        } else {
+            res.status(404).json({ mensaje: 'Invitado no encontrado.' });
+        }
     } catch (error) {
         res.status(400).json({ mensaje: error.message });
     }
 });
+
 
 // DELETE
 // Ruta para eliminar un evento por su ID
