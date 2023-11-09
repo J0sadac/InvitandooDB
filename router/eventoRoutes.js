@@ -85,24 +85,21 @@ router.post('/', async (req, res) => {
 });
 
 // PUT
-// Ruta para actualizar un evento por su ID y las propiedades "anfitrion" e "invitadoId"
-router.put('/', obtenerEvento, async (req, res) => {
+// Ruta para actualizar la confirmación de asistencia de un invitado por su ID y las propiedades "anfitrion" e "invitadoId"
+router.put('/confirmar-asistencia', obtenerEvento, async (req, res) => {
     try {
-        const { anfitrion, invitadoId } = req.body; // Obtén los valores del cuerpo de la solicitud
+        const { anfitrion, invitadoId, asistir } = req.body; // Obtén los valores del cuerpo de la solicitud
 
-        // Verifica si se proporcionaron las propiedades "anfitrion" e "invitadoId" en el cuerpo de la solicitud
-        if (!anfitrion || !invitadoId) {
-            return res.status(400).json({ mensaje: 'Los parámetros "anfitrion" e "invitadoId" son obligatorios.' });
+        // Verifica si se proporcionaron las propiedades "anfitrion", "invitadoId" y "asistir" en el cuerpo de la solicitud
+        if (!anfitrion || !invitadoId || !asistir) {
+            return res.status(400).json({ mensaje: 'Los parámetros "anfitrion", "invitadoId" y "asistir" son obligatorios.' });
         }
 
-        // Actualiza las propiedades "anfitrion" e "invitadoId" del evento
-        res.evento.anfitrion = anfitrion;
         const invitado = res.evento.invitados.find(i => i._id === invitadoId);
 
         if (invitado) {
-            // Si se encuentra el invitado, actualiza sus propiedades específicas
-            // Aquí puedes agregar más propiedades según sea necesario
-            invitado.asistir = req.body.asistir; // Actualiza la propiedad "asistir" del invitado
+            // Si se encuentra el invitado, actualiza su confirmación de asistencia
+            invitado.asistir = asistir;
 
             const eventoActualizado = await res.evento.save();
             res.json(eventoActualizado);
@@ -113,7 +110,6 @@ router.put('/', obtenerEvento, async (req, res) => {
         res.status(400).json({ mensaje: error.message });
     }
 });
-
 
 
 // DELETE
