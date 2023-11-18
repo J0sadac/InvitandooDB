@@ -10,6 +10,7 @@ app.use(express.json());
 
 // Middleware de CORS
 const allowedOrigins = ['http://localhost:3001', 'http://localhost:3000', 'https://invitandoo.com'];
+
 const corsOptions = {
   origin: function(origin, callback) {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -22,6 +23,7 @@ const corsOptions = {
   credentials: true,
   optionsSuccessStatus: 204,
 };
+
 app.use(cors(corsOptions));
 
 // Rutas

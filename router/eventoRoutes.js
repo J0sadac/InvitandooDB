@@ -3,20 +3,38 @@ const router = express.Router();
 const Evento = require('../models/datosModelo'); // Importa el modelo de Evento
 
 async function obtenerEvento(req, res, next) {
-    let evento;
+    const anfitrionParam = req.query.anfitrion;
+    const invitadoIdParam = req.query.invitadoId;
+
     try {
-        evento = await Evento.findById(req.params.id);
-        if (evento == null) {
-            return res.status(404).json({ mensaje: 'Evento no econtrado.' });
+        if (!anfitrionParam) {
+            return res.status(400).json({ mensaje: 'El parámetro "anfitrion" es obligatorio.' });
+        }
+
+        const evento = await Evento.findOne({ anfitrion: anfitrionParam });
+        if (evento) {
+            if (invitadoIdParam) {
+                // Si se proporciona el ID del invitado, busca y asigna solo ese invitado del evento
+                const invitado = evento.invitados.find(i => i._id === invitadoIdParam);
+                if (invitado) {
+                    res.evento = evento;
+                    res.invitado = invitado;
+                    next();
+                } else {
+                    return res.status(404).json({ mensaje: 'Invitado no encontrado.' });
+                }
+            } else {
+                // Si no se proporciona el ID del invitado, asigna solo el evento a la respuesta
+                res.evento = evento;
+                next();
+            }
+        } else {
+            res.status(404).json({ mensaje: 'Evento no encontrado.' });
         }
     } catch (error) {
-        return res.status(500).json({ mensaje: error.message });
+        res.status(500).json({ mensaje: error.message });
     }
-
-    res.evento = evento;
-    next();
 }
-
 
 // GET
 // Ruta para obtener un invitado por su ID para un anfitrión específico o el evento completo si no se proporciona ningún parámetro
@@ -68,21 +86,39 @@ router.get('/:id', obtenerEvento, (req, res) => {
 // POST
 // Ruta para crear un nuevo evento con invitados
 router.post('/', async (req, res) => {
-    const evento = new Evento({
-        anfitriones: req.body.anfitriones,
-        fecha: req.body.fecha,
-        direccion: req.body.direccion,
-        frases: req.body.frases,
-        invitados: req.body.invitados
-    });
-
     try {
-        const nuevoEvento = await evento.save();
-        res.status(201).json(nuevoEvento);
+        const { anfitrion, invitadoId, asistir } = req.body;
+
+        // Verifica si se proporcionaron los parámetros "anfitrion", "invitadoId" y "asistir"
+        if (!anfitrion || !invitadoId || asistir === undefined) {
+            return res.status(400).json({ mensaje: 'Los parámetros "anfitrion", "invitadoId" y "asistir" son obligatorios.' });
+        }
+
+        // Encuentra el evento por el anfitrión
+        const evento = await Evento.findOne({ anfitrion });
+
+        if (evento) {
+            // Encuentra el invitado en el evento
+            const invitado = evento.invitados.find(i => i._id === invitadoId);
+
+            if (invitado) {
+                // Actualiza la confirmación de asistencia del invitado
+                invitado.asistir = asistir;
+
+                // Guarda el evento actualizado en la base de datos
+                const eventoActualizado = await evento.save();
+                res.status(200).json(eventoActualizado);
+            } else {
+                res.status(404).json({ mensaje: 'Invitado no encontrado.' });
+            }
+        } else {
+            res.status(404).json({ mensaje: 'Evento no encontrado.' });
+        }
     } catch (error) {
         res.status(400).json({ mensaje: error.message });
     }
 });
+
 
 // PUT
 // Ruta para actualizar la confirmación de asistencia de un invitado por su ID y las propiedades "anfitrion" e "invitadoId"

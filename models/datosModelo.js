@@ -43,18 +43,34 @@ const invitadoSchema = new mongoose.Schema({
             required: true
         }
     }],
-    fondo: {
-        type: String,
-        required: true
+    multimedia: {
+        imagenesCarousel: [
+            String
+        ],
+        imagenesGaleria: [
+            String
+        ],
+        fondo: {
+            type: String,
+            require: true
+        },
+        canciones: {
+            type: String,
+            require: false
+        },
+        videos: {
+            type: String,
+            require: false
+        }
     },
-    imagenes: [{
-        type: String,
-        required: true
-    }],
     datos: {
         mesaDeRegalos: {
             type: String,
-            required: true
+            required: false
+        },
+        imgMesaDeRegalos: {
+            type: String,
+            require: false
         },
         direccion: {
             salon: {
@@ -103,10 +119,9 @@ const invitadoSchema = new mongoose.Schema({
             required: false
         }
     },
-    cancion: {
-        type: String,
-        required: false
-    },
+    frases: [
+        String
+    ],
     codigoDeVestimenta: {
         hombre: {
             type: String,
