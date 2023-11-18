@@ -61,6 +61,10 @@ const invitadoSchema = new mongoose.Schema({
         videos: {
             type: String,
             require: false
+        },
+        portada: {
+            type: String,
+            require: true
         }
     },
     datos: {
