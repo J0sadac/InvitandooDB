@@ -65,6 +65,10 @@ const invitadoSchema = new mongoose.Schema({
         portada: {
             type: String,
             require: true
+        },
+        flor: {
+            type: String,
+            require: true
         }
     },
     datos: {
