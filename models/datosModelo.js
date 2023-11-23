@@ -73,12 +73,22 @@ const invitadoSchema = new mongoose.Schema({
     },
     datos: {
         mesaDeRegalos: {
-            type: String,
-            required: false
-        },
-        imgMesaDeRegalos: {
-            type: String,
-            require: false
+            modalidad: {
+                type: String,
+                require: false
+            },
+            img: {
+                type: String,
+                require: false
+            },
+            explicacion: {
+                type: String,
+                require: false
+            },
+            codigo: {
+                type: String,
+                require: false
+            }
         },
         direccion: {
             salon: {
