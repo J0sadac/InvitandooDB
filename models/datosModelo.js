@@ -125,6 +125,16 @@ const invitadoSchema = new mongoose.Schema({
         festejado: {
             type: String,
             required: false
+        },
+        padres: {
+            papa: {
+                type: String,
+                required: false
+            },
+            mama: {
+                type: String,
+                required: false
+            }
         }
     },
     frases: [
