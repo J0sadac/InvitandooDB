@@ -143,6 +143,9 @@ router.put('/eventos/invitacion/:anfitrion/:invitadoId', async (req, res) => {
   
       // Guardar los cambios en la base de datos
       await evento.save();
+
+      console.log('Parámetros recibidos:', req.params);
+      console.log('Datos recibidos:', req.body);
   
       res.json({ mensaje: 'Confirmación de asistencia actualizada exitosamente.' });
     } catch (error) {
