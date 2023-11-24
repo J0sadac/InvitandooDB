@@ -77,8 +77,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-
-
 router.get('/:id', obtenerEvento, (req, res) => {
     res.json(res.evento);
 });
@@ -120,32 +118,38 @@ router.post('/', async (req, res) => {
 });
 
 
-// PUT
-// Ruta para actualizar la confirmación de asistencia de un invitado por su ID y las propiedades "anfitrion" e "invitadoId"
-router.put('/confirmar-asistencia', obtenerEvento, async (req, res) => {
+// Ruta para actualizar la confirmación de asistencia de un invitado por su ID y el anfitrión
+router.put('/invitacion/:anfitrion/:invitadoId', async (req, res) => {
     try {
-        const { anfitrion, invitadoId, asistir } = req.body; // Obtén los valores del cuerpo de la solicitud
-
-        // Verifica si se proporcionaron las propiedades "anfitrion", "invitadoId" y "asistir" en el cuerpo de la solicitud
-        if (!anfitrion || !invitadoId || !asistir) {
-            return res.status(400).json({ mensaje: 'Los parámetros "anfitrion", "invitadoId" y "asistir" son obligatorios.' });
-        }
-
-        const invitado = res.evento.invitados.find(i => i._id === invitadoId);
-
-        if (invitado) {
-            // Si se encuentra el invitado, actualiza su confirmación de asistencia
-            invitado.asistir = asistir;
-
-            const eventoActualizado = await res.evento.save();
-            res.json(eventoActualizado);
-        } else {
-            res.status(404).json({ mensaje: 'Invitado no encontrado.' });
-        }
+      const { anfitrion, invitadoId } = req.params;
+      const { asistir } = req.body;
+  
+      // Buscar el evento por el anfitrión
+      const evento = await Evento.findOne({ anfitrion });
+  
+      if (!evento) {
+        return res.status(404).json({ mensaje: 'Evento no encontrado.' });
+      }
+  
+      // Encontrar el invitado por su ID
+      const invitado = evento.invitados.find(i => i._id === invitadoId);
+  
+      if (!invitado) {
+        return res.status(404).json({ mensaje: 'Invitado no encontrado.' });
+      }
+  
+      // Actualizar la confirmación de asistencia
+      invitado.asistir = asistir;
+  
+      // Guardar los cambios en la base de datos
+      await evento.save();
+  
+      res.json({ mensaje: 'Confirmación de asistencia actualizada exitosamente.' });
     } catch (error) {
-        res.status(400).json({ mensaje: error.message });
+      res.status(500).json({ mensaje: 'Error al actualizar la confirmación de asistencia.' });
     }
-});
+  });
+  
 
 
 // DELETE
