@@ -64,11 +64,11 @@ const invitadoSchema = new mongoose.Schema({
         },
         portada: {
             type: String,
-            require: true
+            require: false
         },
         flor: {
             type: String,
-            require: true
+            require: false
         }
     },
     datos: {
@@ -153,11 +153,11 @@ const invitadoSchema = new mongoose.Schema({
     codigoDeVestimenta: {
         hombre: {
             type: String,
-            required: true
+            required: false
         },
         mujer: {
             type: String,
-            required: true
+            required: false
         }
     },
     evento: {
@@ -167,24 +167,28 @@ const invitadoSchema = new mongoose.Schema({
     itinerario: {
             accion: {
                 type: String,
-                required: true
+                required: false
             },
             ubicacion: {
                 type: String,
-                required: true
+                required: false
             },
             icono: {
                 type: String,
-                required: true
+                required: false
             },
             hora: {
                 type: String,
-                required: true
+                required: false
+            },
+            direccion: {
+                type: String,
+                required: false
             }
     },
     ubicacion: {
         type: String,
-        required: true
+        required: false
     }
 }, { collection: "eventos" });
 
