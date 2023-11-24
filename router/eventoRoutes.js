@@ -119,7 +119,7 @@ router.post('/', async (req, res) => {
 
 
 // Ruta para actualizar la confirmación de asistencia de un invitado por su ID y el anfitrión
-router.put('/eventos/invitacion/:anfitrion/:invitadoId', async (req, res) => {
+router.put('/invitacion/:anfitrion/:invitadoId', async (req, res) => {
     try {
       const { anfitrion, invitadoId } = req.params;
       const { asistir } = req.body;
@@ -130,6 +130,8 @@ router.put('/eventos/invitacion/:anfitrion/:invitadoId', async (req, res) => {
       if (!evento) {
         return res.status(404).json({ mensaje: 'Evento no encontrado.' });
       }
+  
+      console.log('Evento antes de la actualización:', evento); // Agregamos este console.log
   
       // Encontrar el invitado por su ID
       const invitado = evento.invitados.find(i => i._id === invitadoId);
@@ -143,15 +145,15 @@ router.put('/eventos/invitacion/:anfitrion/:invitadoId', async (req, res) => {
   
       // Guardar los cambios en la base de datos
       await evento.save();
-
-      console.log('Parámetros recibidos:', req.params);
-      console.log('Datos recibidos:', req.body);
+  
+      console.log('Evento después de la actualización:', evento); // Agregamos este console.log
   
       res.json({ mensaje: 'Confirmación de asistencia actualizada exitosamente.' });
     } catch (error) {
       res.status(500).json({ mensaje: 'Error al actualizar la confirmación de asistencia.' });
     }
   });
+  
   
 
 
