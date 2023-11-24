@@ -164,7 +164,7 @@ const invitadoSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    itinerario: {
+    itinerario: [{
             accion: {
                 type: String,
                 required: false
@@ -185,7 +185,7 @@ const invitadoSchema = new mongoose.Schema({
                 type: String,
                 required: false
             }
-    },
+    }],
     ubicacion: {
         type: String,
         required: false
