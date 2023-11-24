@@ -119,7 +119,7 @@ router.post('/', async (req, res) => {
 
 
 // Ruta para actualizar la confirmación de asistencia de un invitado por su ID y el anfitrión
-router.put('/invitacion/:anfitrion/:invitadoId', async (req, res) => {
+router.put('/eventos', obtenerEvento, async (req, res) => {
     const { anfitrion, invitadoId } = req.params;
     const { asistir } = req.body;
 
