@@ -119,40 +119,34 @@ router.post('/', async (req, res) => {
 
 
 // Ruta para actualizar la confirmación de asistencia de un invitado por su ID y el anfitrión
-router.put('/:anfitrion/:invitadoId', async (req, res) => {
+router.put('/invitacion/:anfitrion/:invitadoId', async (req, res) => {
+    const { anfitrion, invitadoId } = req.params;
+    const { asistir } = req.body;
+
     try {
-      const { anfitrion, invitadoId } = req.params;
-      const { asistir } = req.body;
-  
-      // Buscar el evento por el anfitrión
-      const evento = await Evento.findOne({ anfitrion });
-  
-      if (!evento) {
-        return res.status(404).json({ mensaje: 'Evento no encontrado.' });
-      }
-  
-      console.log('Evento antes de la actualización:', evento); // Agregamos este console.log
-  
-      // Encontrar el invitado por su ID
-      const invitado = evento.invitados.find(i => i._id === invitadoId);
-  
-      if (!invitado) {
-        return res.status(404).json({ mensaje: 'Invitado no encontrado.' });
-      }
-  
-      // Actualizar la confirmación de asistencia
-      invitado.asistir = asistir;
-  
-      // Guardar los cambios en la base de datos
-      await evento.save();
-  
-      console.log('Evento después de la actualización:', evento); // Agregamos este console.log
-  
-      res.json({ mensaje: 'Confirmación de asistencia actualizada exitosamente.' });
+        const evento = await Evento.findOne({ anfitrion });
+
+        if (!evento) {
+            return res.status(404).json({ mensaje: 'Evento no encontrado.' });
+        }
+
+        const invitado = evento.invitados.find(i => i._id === invitadoId);
+
+        if (!invitado) {
+            return res.status(404).json({ mensaje: 'Invitado no encontrado.' });
+        }
+
+        invitado.asistir = asistir;
+
+        await evento.save();
+
+        res.json({ mensaje: 'Confirmación de asistencia actualizada exitosamente.' });
     } catch (error) {
-      res.status(500).json({ mensaje: 'Error al actualizar la confirmación de asistencia.' });
+        res.status(500).json({ mensaje: 'Error al actualizar la confirmación de asistencia.' });
     }
-  });
+});
+
+
   
   
 
