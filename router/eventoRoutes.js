@@ -40,7 +40,7 @@ async function obtenerEvento(req, res, next) {
 // Ruta para obtener un invitado por su ID para un anfitrión específico o el evento completo si no se proporciona ningún parámetro
 router.get('/', async (req, res) => {
     const anfitrionParam = req.query.anfitrion; // Obtiene el valor del parámetro 'anfitrion' de la URL
-    const invitadoIdParam = req.query.invitadoId; // Obtiene el valor del parámetro 'invitadoId' de la URL
+    const invitadoIdParam = req.params.invitadoId; // Obtiene el valor del parámetro 'invitadoId' de la URL
 
     try {
         if (!anfitrionParam && !invitadoIdParam) {
@@ -119,36 +119,41 @@ router.post('/', async (req, res) => {
 
 
 // Ruta para actualizar la confirmación de asistencia de un invitado por su ID y el anfitrión
-router.put('/eventos', obtenerEvento, async (req, res) => {
-    const { anfitrion, invitadoId } = req.params;
+// Ruta para actualizar la confirmación de asistencia de un invitado por su ID y el anfitrión
+router.put('/', obtenerEvento, async (req, res) => {
+    const { invitadoId } = req.query;
     const { asistir } = req.body;
 
     try {
-        const evento = await Evento.findOne({ anfitrion });
-
-        if (!evento) {
-            return res.status(404).json({ mensaje: 'Evento no encontrado.' });
+        if (asistir === undefined) {
+            return res.status(400).json({ mensaje: 'El parámetro "asistir" es obligatorio.' });
         }
 
-        const invitado = evento.invitados.find(i => i._id === invitadoId);
+        // Obtener el evento del anfitrión
+        let evento = res.evento;
 
-        if (!invitado) {
+        // Encontrar el índice del invitado
+        const invitadoIndex = evento.invitados.findIndex(i => i._id === invitadoId);
+        
+        if (invitadoIndex === -1) {
             return res.status(404).json({ mensaje: 'Invitado no encontrado.' });
         }
 
-        invitado.asistir = asistir;
+        // Actualizar la propiedad asistir del invitado específico
+        evento.invitados[invitadoIndex].asistir = asistir;
 
-        await evento.save();
+        // Guardar los cambios en la base de datos
+        await evento.update();
 
         res.json({ mensaje: 'Confirmación de asistencia actualizada exitosamente.' });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ mensaje: 'Error al actualizar la confirmación de asistencia.' });
     }
 });
 
 
-  
-  
+
 
 
 // DELETE
