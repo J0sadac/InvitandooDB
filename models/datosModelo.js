@@ -1,83 +1,141 @@
 const mongoose = require('mongoose');
 
 const invitadoSchema = new mongoose.Schema({
-    _id: {
-        type: String,
-        required: true
-    },
-    anfitrion: {
-        type: String,
-        required: true
-    },
-    invitados: [{
-        _id: {
-            type: String,
-            required: true
-        },
-        mesa: {
-            type: Number,
-            required: true
-        },
-        nombreInvitado: {
-            type: String,
-            required: true
-        },
-        cantidadInvitados: {
-            type: Number,
-            required: true
-        },
-        niños: {
-            type: Number,
-            required: false
-        },
-        numeroTelefono: {
-            type: String,
-            required: true
-        },
-        numeroWhatsapp: {
+        evento: {
             type: String,
             required: false
+            //temporal
         },
-        asistir: {
-            type: String,
-            required: true
-        }
-    }],
-    multimedia: {
-        imagenesCarousel: [
-            String
-        ],
-        imagenesGaleria: [
-            String
-        ],
-        fondo: {
-            type: String,
-            require: true
+        datos: {
+            festejado: {
+                type: String,
+                required: false
+            },
+            novios: {
+                novio: {
+                    type: String,
+                    required: false
+                },
+                novia: {
+                    type: String,
+                    required: false
+                }
+            },
+            padres: {
+                papa: {
+                    type: String,
+                    required: false
+                },
+                mama: {
+                    type: String,
+                    required: false
+                }
+            },
+            fecha: {
+                type: String,
+                required: false
+                //temporal
+            },
+            lugar: {
+                salon: {
+                    type: String,
+                    required: false
+                    //temporal
+                },
+                direccion: {
+                    type: String,
+                    required: false
+                    //temporal
+                },
+                ciudad: {
+                    type: String,
+                    required: false
+                    //temporal
+                }
+            },
+            padrinos: [{
+                padrino: {
+                    type: String,
+                    required: false
+                },
+                de: {
+                    type: String,
+                    required: false
+                }
+            }]
         },
-        canciones: {
-            type: String,
-            require: false
+        multimedia: {
+            carousel: [{
+                imageURL: {
+                    type: String,
+                    require: false
+                },
+                public_id: {
+                    type: String,
+                    require: false
+                }
+            }],
+            galeria: [{
+                imageURL: {
+                    type: String,
+                    require: false
+                },
+                public_id: {
+                    type: String,
+                    require: false
+                }
+            }],
+            fondo: {
+                imageURL: {
+                    type: String,
+                    require: false
+                },
+                public_id: {
+                    type: String,
+                    require: false
+                }
+            },
+            cancion: {
+                audioURL: {
+                    type: String,
+                    require: false
+                },
+                public_id: {
+                    type: String,
+                    require: false
+                }
+            },
+            videos: {
+                type: String,
+                require: false
+            },
+            portada: [{
+                imageURL: {
+                    type: String,
+                    require: false
+                },
+                public_id: {
+                    type: String,
+                    require: false
+                }
+            }],
+            flor: {
+                imageURL: {
+                    type: String,
+                    require: false
+                },
+                public_id: {
+                    type: String,
+                    require: false
+                }
+            }
         },
-        videos: {
-            type: String,
-            require: false
-        },
-        portada: {
-            type: String,
-            require: false
-        },
-        flor: {
-            type: String,
-            require: false
-        }
-    },
-    datos: {
-        mesaDeRegalos: {
+        mesaDeRegalos: [{
             modalidad: {
                 type: String,
                 require: false
             },
-            img: {
+            icono: {
                 type: String,
                 require: false
             },
@@ -89,82 +147,12 @@ const invitadoSchema = new mongoose.Schema({
                 type: String,
                 require: false
             }
-        },
-        direccion: {
-            salon: {
-                type: String,
-                required: true
-            },
-            address: {
-                type: String,
-                required: true
-            },
-            ciudad: {
-                type: String,
-                required: true
-            }
-        },
-        fechas: {
-            type: String,
-            required: true
-        },
-        padrinos: [{
-            padrino: {
-                type: String,
-                required: false
-            },
-            de: {
-                type: String,
-                required: false
-            }
         }],
-        dia: {
+        frases: [{
             type: String,
-            required: true
-        },
-        novios: {
-            novio: {
-                type: String,
-                required: false
-            },
-            novia: {
-                type: String,
-                required: false
-            }
-        },
-        festejado: {
-            type: String,
-            required: false
-        },
-        padres: {
-            papa: {
-                type: String,
-                required: false
-            },
-            mama: {
-                type: String,
-                required: false
-            }
-        }
-    },
-    frases: [
-        String
-    ],
-    codigoDeVestimenta: {
-        hombre: {
-            type: String,
-            required: false
-        },
-        mujer: {
-            type: String,
-            required: false
-        }
-    },
-    evento: {
-        type: String,
-        required: true
-    },
-    itinerario: [{
+            require: false
+        }],
+        itinerario: [{
             accion: {
                 type: String,
                 required: false
@@ -185,11 +173,55 @@ const invitadoSchema = new mongoose.Schema({
                 type: String,
                 required: false
             }
-    }],
-    ubicacion: {
-        type: String,
-        required: false
-    }
+        }],
+        vestimenta: {
+            hombre: {
+                type: String,
+                required: false
+            },
+            mujer: {
+                type: String,
+                required: false
+            }
+        },
+        ubicacion: {
+            type: String,
+            required: false
+        },
+        invitados: [{
+            mesa: {
+                type: Number,
+                required: false
+                //temporal
+            },
+            invitado: {
+                type: String,
+                required: false
+                //temporal
+            },
+            pase: {
+                type: Number,
+                required: false
+                //temporal
+            },
+            niños: {
+                type: Number,
+                required: false
+            },
+            telefono: [{
+                type: String,
+                required: false
+                //temporal
+            }],
+            asistir: {
+                type: String,
+                required: false
+                //temporal
+            },
+            anfitrion: {
+                type: String
+            }
+        }]
 }, { collection: "eventos" });
 
 const Invitado = mongoose.model('eventos', invitadoSchema);
