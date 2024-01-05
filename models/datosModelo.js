@@ -218,10 +218,10 @@ const invitadoSchema = new mongoose.Schema({
                 required: false
                 //temporal
             },
-            anfitrion: {
-                type: String
-            }
-        }]
+        }],
+        anfitrion: {
+            type: String
+        }
 }, { collection: "eventos" });
 
 const Invitado = mongoose.model('eventos', invitadoSchema);
