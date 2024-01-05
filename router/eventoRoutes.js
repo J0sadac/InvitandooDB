@@ -4,7 +4,7 @@ const Evento = require('../models/datosModelo'); // Importa el modelo de Evento
 
 async function obtenerEvento(req, res, next) {
     const anfitrionParam = req.query.anfitrion;
-    const invitadoIdParam = req.query.invitadoId;
+    const invitadoIdParam = req.params.invitadoId;
 
     try {
         if (!anfitrionParam) {
